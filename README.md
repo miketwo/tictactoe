@@ -1,2 +1,1 @@
-# tictactoe
-A simple game
+# example-package
