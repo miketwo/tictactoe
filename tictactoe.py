@@ -2,7 +2,14 @@ import os
 import random
 from functools import partial
 from time import sleep
-import unittest
+
+
+def main():
+  intro()
+  board = setupBoard()
+  players = initPlayers()
+  playGame(board, players)
+
 
 def intro():
   os.system('cls' if os.name == 'nt' else 'clear')
@@ -23,18 +30,11 @@ You can play against another person or the computer (or have computers duke it o
 """)
 
 
-def main():
-  intro()
-  board = setupBoard()
-  players = initPlayers()
-  playGame(board, players)
-
-
 def setupBoard():
   return [
-      ["-","-","-"],
-      ["-","-","-"],
-      ["-","-","-"],
+      ["-", "-", "-"],
+      ["-", "-", "-"],
+      ["-", "-", "-"],
   ]
 
 
@@ -51,7 +51,7 @@ def initPlayers():
 
 
 def chooseHumanOrComputer(p_number):
-  assert p_number in [1,2]
+  assert p_number in [1, 2]
   player = None
   ordinal = {
     1: "First",
@@ -59,8 +59,8 @@ def chooseHumanOrComputer(p_number):
   }
   while player is None:
     player = input(f"{ordinal[p_number]} player: (H)uman or (C)omputer? ").upper()
-    if not player in ['H','C']:
-      print(f"Error: Please enter 'h' or 'c'")
+    if player not in ['H', 'C']:
+      print("Error: Please enter 'h' or 'c'")
       player = None
     else:
       return player
@@ -77,7 +77,7 @@ def playGame(board, players):
 
 
 def playerPlays(board, players, turn):
-  if turn%2==0:
+  if turn % 2 == 0:
     return players[0](board, "X")
   else:
     return players[1](board, "O")
@@ -85,11 +85,11 @@ def playerPlays(board, players, turn):
 
 def humanPlay(board, XorO):
   pos = None
-  open_spots = [pos for pos in range(1,10) if boardVal(board, pos)=="-"]
+  open_spots = [pos for pos in range(1, 10) if boardVal(board, pos) =="-"]
   while pos is None:
     pos = input(f"Where to play {open_spots}? ")
     try:
-      assert(int(pos) in open_spots)
+      assert int(pos) in open_spots
     except (ValueError, AssertionError):
       print(f"Error: Please enter one of the following values: {open_spots}")
       pos = None
@@ -98,7 +98,7 @@ def humanPlay(board, XorO):
 
 
 def compPlay(board, XorO):
-  open_spots = [pos for pos in range(1,10) if boardVal(board, pos)=="-"]
+  open_spots = [pos for pos in range(1, 10) if boardVal(board, pos) =="-"]
   if 5 in open_spots:
     pos = 5
   else:
@@ -112,32 +112,33 @@ def isWinner(board):
   #  ...  or None if not game ended yet
   bV = partial(boardVal, board)
   # Check rows
-  if bV(1) in ['X','O'] and bV(1) == bV(2) == bV(3):
+  if bV(1) in ['X', 'O'] and bV(1) == bV(2) == bV(3):
     return bV(1)
-  if bV(4) in ['X','O'] and bV(4) == bV(5) == bV(6):
+  if bV(4) in ['X', 'O'] and bV(4) == bV(5) == bV(6):
     return bV(4)
-  if bV(7) in ['X','O'] and bV(7) == bV(8) == bV(9):
+  if bV(7) in ['X', 'O'] and bV(7) == bV(8) == bV(9):
     return bV(7)
 
   # Check columns
-  if bV(1) in ['X','O'] and bV(1) == bV(4) == bV(7):
+  if bV(1) in ['X', 'O'] and bV(1) == bV(4) == bV(7):
     return bV(1)
-  if bV(2) in ['X','O'] and bV(2) == bV(5) == bV(8):
+  if bV(2) in ['X', 'O'] and bV(2) == bV(5) == bV(8):
     return bV(2)
-  if bV(3) in ['X','O'] and bV(3) == bV(6) == bV(9):
+  if bV(3) in ['X', 'O'] and bV(3) == bV(6) == bV(9):
     return bV(3)
 
   # Check diagonals
-  if bV(1) in ['X','O'] and bV(1) == bV(5) == bV(9):
+  if bV(1) in ['X', 'O'] and bV(1) == bV(5) == bV(9):
     return bV(1)
-  if bV(3) in ['X','O'] and bV(3) == bV(5) == bV(7):
+  if bV(3) in ['X', 'O'] and bV(3) == bV(5) == bV(7):
     return bV(3)
 
   # Check if there are any open spots left to play
-  if all([bV(x) in ['X','O'] for x in range(1,10)]):
+  if all([bV(x) in ['X', 'O'] for x in range(1,10)]):
     return "NO ONE"
 
   return None
+
 
 def showWinner(board):
   displayBoard(board)
@@ -146,7 +147,7 @@ def showWinner(board):
 
 
 def boardVal(board, pos):
-  x,y = indexToBoard(pos)
+  x, y = indexToBoard(pos)
   return board[x][y]
 
 
@@ -156,21 +157,21 @@ def displayBoard(board, turn=None):
     print(f"TURN: {turn}   PLAYER{turn%2+1} GOES")
   bV = partial(boardVal, board)
   print(f"{bV(7)} | {bV(8)} | {bV(9)}")
-  print(f"----------")
+  print("----------")
   print(f"{bV(4)} | {bV(5)} | {bV(6)}")
-  print(f"----------")
+  print("----------")
   print(f"{bV(1)} | {bV(2)} | {bV(3)}")
 
 
 def indexToBoard(idx):
   # x = int((9 - idx)/3)
   # y = idx % 3
-  x,y = divmod(idx-1, 3)
-  return (x,y)
+  x, y = divmod(idx - 1, 3)
+  return (x, y)
 
 
 def setPos(board, pos, XorO):
-  x,y = indexToBoard(pos)
+  x, y = indexToBoard(pos)
   board[x][y] = XorO
   return board
 
