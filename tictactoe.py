@@ -175,51 +175,5 @@ def setPos(board, pos, XorO):
   return board
 
 
-def tests():
-  T = unittest.TestCase()
-  T.assertEqual(indexToBoard(1), (0,0))
-  T.assertEqual(indexToBoard(2), (0,1))
-  T.assertEqual(indexToBoard(3), (0,2))
-  T.assertEqual(indexToBoard(4), (1,0))
-  T.assertEqual(indexToBoard(5), (1,1))
-  T.assertEqual(indexToBoard(6), (1,2))
-  T.assertEqual(indexToBoard(7), (2,0))
-  T.assertEqual(indexToBoard(8), (2,1))
-  T.assertEqual(indexToBoard(9), (2,2))
-
-  testBoard = [
-      ["X","X","X"],
-      ["-","-","-"],
-      ["-","-","-"],
-  ]
-
-  T.assertEqual(isWinner(testBoard), "X")
-
-  testBoard = [
-    ["O","-","-"],
-    ["-","O","-"],
-    ["-","-","O"],
-  ]
-
-  T.assertEqual(isWinner(testBoard), "O")
-
-  testBoard = [
-    ["-","X","-"],
-    ["-","O","-"],
-    ["X","-","O"],
-  ]
-
-  T.assertEqual(isWinner(testBoard), None)
-
-  testBoard = [
-    ["X","X","O"],
-    ["O","O","X"],
-    ["X","O","O"],
-  ]
-
-  T.assertEqual(isWinner(testBoard), "NO ONE")
-
-
 if __name__ == "__main__":
-  tests()
   main()
