@@ -51,6 +51,7 @@ def initPlayers():
 
 
 def chooseHumanOrComputer(p_number):
+  # Prompts the user for the type of player (human or comp)
   assert p_number in [1, 2]
   player = None
   ordinal = {
@@ -72,7 +73,7 @@ def playGame(board, players):
     displayBoard(board, turn)
     board = playerPlays(board, players, turn)
     if isWinner(board) is not None:
-      showWinner(board)
+      showWinnerAndQuit(board)
     turn += 1
 
 
@@ -85,7 +86,7 @@ def playerPlays(board, players, turn):
 
 def humanPlay(board, XorO):
   pos = None
-  open_spots = [pos for pos in range(1, 10) if boardVal(board, pos) =="-"]
+  open_spots = [pos for pos in range(1, 10) if boardVal(board, pos) == "-"]
   while pos is None:
     pos = input(f"Where to play {open_spots}? ")
     try:
@@ -98,7 +99,7 @@ def humanPlay(board, XorO):
 
 
 def compPlay(board, XorO):
-  open_spots = [pos for pos in range(1, 10) if boardVal(board, pos) =="-"]
+  open_spots = [pos for pos in range(1, 10) if boardVal(board, pos) == "-"]
   if 5 in open_spots:
     pos = 5
   else:
@@ -140,7 +141,7 @@ def isWinner(board):
   return None
 
 
-def showWinner(board):
+def showWinnerAndQuit(board):
   displayBoard(board)
   print(f"\n{isWinner(board)} WINS!")
   quit()
