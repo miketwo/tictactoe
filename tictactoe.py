@@ -165,8 +165,6 @@ def displayBoard(board, turn=None):
 
 
 def indexToBoard(idx):
-  # x = int((9 - idx)/3)
-  # y = idx % 3
   x, y = divmod(idx - 1, 3)
   return (x, y)
 
