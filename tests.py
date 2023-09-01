@@ -1,6 +1,7 @@
 import unittest
 import tictactoe
 
+
 class TestTicTacToe(unittest.TestCase):
   def test_indexToBoard(self):
     self.assertEqual(tictactoe.indexToBoard(1), (0,0))

@@ -41,8 +41,8 @@ def setupBoard():
 def initPlayers():
   # Associate player types with functions that can be called
   # during the game
-  p1 = chooseHumanOrComputer(1)
-  p2 = chooseHumanOrComputer(2)
+  p1 = chooseHumanOrComputer(1, "H")
+  p2 = chooseHumanOrComputer(2, "C")
   playerToFunc = {
     'H': humanPlay,
     'C': compPlay
@@ -50,7 +50,7 @@ def initPlayers():
   return [playerToFunc[p1], playerToFunc[p2]]
 
 
-def chooseHumanOrComputer(p_number):
+def chooseHumanOrComputer(p_number, default):
   # Prompts the user for the type of player (human or comp)
   assert p_number in [1, 2]
   player = None
@@ -59,7 +59,9 @@ def chooseHumanOrComputer(p_number):
     2: "Second"
   }
   while player is None:
-    player = input(f"{ordinal[p_number]} player: (H)uman or (C)omputer? ").upper()
+    player = input(f"{ordinal[p_number]} player: (H)uman or (C)omputer? (default: {default}) ").upper()
+    if player == '':
+      player = default
     if player not in ['H', 'C']:
       print("Error: Please enter 'h' or 'c'")
       player = None
